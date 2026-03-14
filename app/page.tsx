@@ -70,11 +70,11 @@ export default function Home() {
         .nav-right{display:flex;align-items:center;gap:14px}
         .nav-badge{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);border:1px solid var(--border-green);padding:4px 12px;border-radius:20px;letter-spacing:0.08em;text-transform:uppercase}
         .nav-tagline{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:0.08em}
-        .hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 40px 80px;max-width:1100px;margin:0 auto}
+        .hero{position:relative;z-index:1;min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding:100px 40px 60px;max-width:1100px;margin:0 auto}
         .hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:28px;opacity:0;animation:fadeUp 0.6s 0.1s ease forwards}
-        .hero h1{font-size:clamp(3.5rem,7vw,6rem);font-weight:700;line-height:1.05;letter-spacing:-0.03em;margin-bottom:28px;opacity:0;animation:fadeUp 0.6s 0.2s ease forwards}
+        .hero h1{font-size:clamp(3.5rem,7vw,6rem);font-weight:700;line-height:1.05;letter-spacing:-0.03em;margin-bottom:20px;opacity:0;animation:fadeUp 0.6s 0.2s ease forwards}
         .hero h1 em{font-style:italic;font-family:'Source Serif 4',serif;font-weight:400;color:var(--green)}
-        .hero-sub{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--text-mid);max-width:520px;line-height:1.8;margin-bottom:48px;opacity:0;animation:fadeUp 0.6s 0.3s ease forwards}
+        .hero-sub{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--text-mid);max-width:520px;line-height:1.8;margin-bottom:32px;opacity:0;animation:fadeUp 0.6s 0.3s ease forwards}
         .hero-sub strong{color:var(--green);font-weight:500}
         .cta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;opacity:0;animation:fadeUp 0.6s 0.4s ease forwards}
         .btn-primary{background:var(--green);color:#0D2137;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.05em;text-transform:uppercase;padding:14px 32px;border-radius:6px;border:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
@@ -138,7 +138,7 @@ export default function Home() {
         .footer-left{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim)}
         .footer-left strong{color:var(--green)}
         .footer-right{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim)}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
         @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
         @media(max-width:768px){
           .stats-grid{grid-template-columns:1fr 1fr}
