@@ -15,10 +15,11 @@ export async function GET(req: NextRequest) {
   })
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
-  const settledBets = user.bets.filter(b => b.result !== null)
-  const wins = settledBets.filter(b => b.result === 'W').length
-  const totalStaked = settledBets.reduce((a, b) => a + b.stakeTokens, 0)
-  const totalNetChange = settledBets.reduce((a, b) => a + (b.netChange ?? 0), 0)
+  type BetRow = typeof user.bets[number]
+  const settledBets = user.bets.filter((b: BetRow) => b.result !== null)
+  const wins = settledBets.filter((b: BetRow) => b.result === 'W').length
+  const totalStaked = settledBets.reduce((a: number, b: BetRow) => a + b.stakeTokens, 0)
+  const totalNetChange = settledBets.reduce((a: number, b: BetRow) => a + (b.netChange ?? 0), 0)
   const roi = totalStaked > 0 ? ((totalNetChange / totalStaked) * 100).toFixed(2) : '0.00'
 
   return NextResponse.json({
