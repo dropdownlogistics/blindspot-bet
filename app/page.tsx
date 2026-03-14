@@ -75,14 +75,16 @@ function OrbitalHero({ visible }: { visible: boolean }) {
         <rect x={CX-54} y={CY-54} width={108} height={108} rx={18} fill="#0D2137" stroke="#22C55E" strokeWidth="1" strokeOpacity="0.5" />
         <rect x={CX-51} y={CY-51} width={102} height={102} rx={16} fill="#0a1a2e" stroke="#1A3048" strokeWidth="0.5" />
 
-        {/* Helix mark — canonical brand kit paths, scaled 2.8x */}
-        <g transform={`translate(${CX-36},${CY-36}) scale(2.8)`}>
-          <path d="M9 3C9 3 17 7 17 10.5C17 14 9 16 9 19.5C9 23 17 24 17 24" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" fill="none"/>
-          <path d="M17 3C17 3 9 7 9 10.5C9 14 17 16 17 19.5C17 23 9 24 9 24" stroke="#86EFAC" strokeWidth="2" strokeLinecap="round" fill="none"/>
-          <line x1="10" y1="7.5" x2="16" y2="7.5" stroke="#E2E8F0" strokeWidth="1.4" strokeLinecap="round"/>
-          <line x1="10" y1="13" x2="16" y2="13" stroke="#E2E8F0" strokeWidth="1.4" strokeLinecap="round"/>
-          <line x1="10" y1="18.5" x2="16" y2="18.5" stroke="#E2E8F0" strokeWidth="1.4" strokeLinecap="round"/>
-        </g>
+        {/* Helix mark — nested SVG with canonical viewBox */}
+        <foreignObject x={CX-38} y={CY-38} width="76" height="76">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" width="76" height="76" fill="none">
+            <path d="M9 3C9 3 17 7 17 10.5C17 14 9 16 9 19.5C9 23 17 24 17 24" stroke="#22C55E" strokeWidth="2" strokeLinecap="round"/>
+            <path d="M17 3C17 3 9 7 9 10.5C9 14 17 16 17 19.5C17 23 9 24 9 24" stroke="#86EFAC" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="10" y1="7.5" x2="16" y2="7.5" stroke="#E2E8F0" strokeWidth="1.4" strokeLinecap="round"/>
+            <line x1="10" y1="13" x2="16" y2="13" stroke="#E2E8F0" strokeWidth="1.4" strokeLinecap="round"/>
+            <line x1="10" y1="18.5" x2="16" y2="18.5" stroke="#E2E8F0" strokeWidth="1.4" strokeLinecap="round"/>
+          </svg>
+        </foreignObject>
 
         {/* Nodes */}
         {NODES.map((node, i) => {
@@ -143,7 +145,7 @@ export default function Home() {
         .nav-badge{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);border:1px solid var(--border-green);padding:4px 12px;border-radius:20px;letter-spacing:0.08em;text-transform:uppercase}
         .nav-tagline{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:0.06em}
 
-        .hero{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px;padding:120px 64px 80px;max-width:1240px;margin:0 auto}
+        .hero{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px;padding:100px 64px 56px;max-width:1240px;margin:0 auto}
         .hero-text{display:flex;flex-direction:column}
         .hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:22px;opacity:0;animation:fadeUp 0.7s 0.2s ease forwards}
         .hero h1{font-size:clamp(2.6rem,4.5vw,4.2rem);font-weight:700;line-height:1.06;letter-spacing:-0.03em;margin-bottom:20px;opacity:0;animation:fadeUp 0.7s 0.3s ease forwards}
