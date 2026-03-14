@@ -2,8 +2,24 @@ import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata: Metadata = {
-  title: "blindspot.bet - See What You've Been Missing",
+  title: "blindspot.bet — See What You've Been Missing",
   description: 'Sports betting analytics. Track every bet. Surface every pattern. Find your blind spots before they cost you.',
+  metadataBase: new URL('https://blindspot.bet'),
+  openGraph: {
+    title: "blindspot.bet — See What You've Been Missing",
+    description: 'Track every bet. Surface every pattern. Find your edge — and your leaks.',
+    url: 'https://blindspot.bet',
+    siteName: 'blindspot.bet',
+    images: [{ url: '/api/og', width: 1200, height: 630 }],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "blindspot.bet — See What You've Been Missing",
+    description: 'Track every bet. Surface every pattern. Find your edge — and your leaks.',
+    images: ['/api/og'],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
