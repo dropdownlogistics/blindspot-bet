@@ -75,13 +75,13 @@ function OrbitalHero({ visible }: { visible: boolean }) {
         <rect x={CX-54} y={CY-54} width={108} height={108} rx={18} fill="#0D2137" stroke="#22C55E" strokeWidth="1" strokeOpacity="0.5" />
         <rect x={CX-51} y={CY-51} width={102} height={102} rx={16} fill="#0a1a2e" stroke="#1A3048" strokeWidth="0.5" />
 
-        {/* Helix mark */}
-        <g transform={`translate(${CX-14},${CY-18})`}>
-          <path d="M4 0C4 0 24 9 24 14C24 19 4 21 4 27C4 33 24 34.5 24 34.5" stroke="#22C55E" strokeWidth="2.8" strokeLinecap="round" fill="none" />
-          <path d="M24 0C24 0 4 9 4 14C4 19 24 21 24 27C24 33 4 34.5 4 34.5" stroke="#86EFAC" strokeWidth="2.8" strokeLinecap="round" fill="none" />
-          <line x1="5.5" y1="8" x2="22.5" y2="8" stroke="#E2E8F0" strokeWidth="1.8" strokeLinecap="round" />
-          <line x1="5.5" y1="17.5" x2="22.5" y2="17.5" stroke="#E2E8F0" strokeWidth="1.8" strokeLinecap="round" />
-          <line x1="5.5" y1="27" x2="22.5" y2="27" stroke="#E2E8F0" strokeWidth="1.8" strokeLinecap="round" />
+        {/* Helix mark — canonical brand kit paths, scaled 2.8x */}
+        <g transform={`translate(${CX-36},${CY-36}) scale(2.8)`}>
+          <path d="M9 3C9 3 17 7 17 10.5C17 14 9 16 9 19.5C9 23 17 24 17 24" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" fill="none"/>
+          <path d="M17 3C17 3 9 7 9 10.5C9 14 17 16 17 19.5C17 23 9 24 9 24" stroke="#86EFAC" strokeWidth="2" strokeLinecap="round" fill="none"/>
+          <line x1="10" y1="7.5" x2="16" y2="7.5" stroke="#E2E8F0" strokeWidth="1.4" strokeLinecap="round"/>
+          <line x1="10" y1="13" x2="16" y2="13" stroke="#E2E8F0" strokeWidth="1.4" strokeLinecap="round"/>
+          <line x1="10" y1="18.5" x2="16" y2="18.5" stroke="#E2E8F0" strokeWidth="1.4" strokeLinecap="round"/>
         </g>
 
         {/* Nodes */}
