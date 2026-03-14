@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import type { Bet } from '@prisma/client'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -15,10 +16,10 @@ export async function GET(req: NextRequest) {
   })
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
-  const settledBets = user.bets.filter(b => b.result !== null)
-  const wins = settledBets.filter(b => b.result === 'W').length
-  const totalStaked = settledBets.reduce((a, b) => a + b.stakeTokens, 0)
-  const totalNetChange = settledBets.reduce((a, b) => a + (b.netChange ?? 0), 0)
+  const settledBets = user.bets.filter((b: Bet) => b.result !== null)
+  const wins = settledBets.filter((b: Bet) => b.result === 'W').length
+  const totalStaked = settledBets.reduce((a: number, b: Bet) => a + b.stakeTokens, 0)
+  const totalNetChange = settledBets.reduce((a: number, b: Bet) => a + (b.netChange ?? 0), 0)
   const roi = totalStaked > 0 ? ((totalNetChange / totalStaked) * 100).toFixed(2) : '0.00'
 
   return NextResponse.json({
