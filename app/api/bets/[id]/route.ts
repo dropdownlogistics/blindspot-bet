@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const { result, exitValue, fullPayoutValue } = await req.json()
-  const bet = await prisma.bet.findUnique({ where: { id: params.id } })
+  const bet = await prisma.bet.findUnique({ where: { id } })
   if (!bet) return NextResponse.json({ error: 'Bet not found' }, { status: 404 })
 
   let netChange = 0
@@ -22,7 +23,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const tokenBalanceAfter = (user?.tokenBalance ?? 0) + netChange + bet.stakeTokens
 
   const updated = await prisma.bet.update({
-    where: { id: params.id },
+    where: { id },
     data: { result, netChange, tokenBalanceAfter, exitValue, fullPayoutValue }
   })
 
