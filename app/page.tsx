@@ -145,7 +145,7 @@
       </nav>
 
       <section className="hero">
-        <div className="hero-eyebrow">D&amp;A Analytics Â· Sports Betting Â· blindspot.bet</div>
+        <div className="hero-eyebrow">D&amp;A Analytics · Sports Betting · blindspot.bet</div>
         <h1>You&apos;re not losing.<br />You&apos;re <em>not seeing.</em></h1>
         <p className="hero-sub">
           <strong>blindspot.bet</strong> tracks every bet, surfaces every pattern, and shows you exactly where your edge is â€” and where it isn&apos;t. The house doesn&apos;t have better odds. It has better data.
@@ -221,9 +221,9 @@
             <div className="preview-bets">
               <div className="mini-label" style={{marginBottom:'12px'}}>Recent Bets</div>
               {[
-                {sport:'NBA Â· Spread',team:'Lakers -4.5',book:'DraftKings Â· -110',result:'+$95.45',cls:'up'},
-                {sport:'MLB Â· Moneyline',team:'Yankees ML',book:'FanDuel Â· -145',result:'-$100.00',cls:'down'},
-                {sport:'NCAAB Â· O/U',team:'Kansas o152.5',book:'BetMGM Â· -108',result:'+$92.59',cls:'up'},
+                {sport:'NBA · Spread',team:'Lakers -4.5',book:'DraftKings · -110',result:'+$95.45',cls:'up'},
+                {sport:'MLB · Moneyline',team:'Yankees ML',book:'FanDuel · -145',result:'-$100.00',cls:'down'},
+                {sport:'NCAAB · O/U',team:'Kansas o152.5',book:'BetMGM · -108',result:'+$92.59',cls:'up'},
               ].map((b,i) => (
                 <div key={i} className="bet-row">
                   <div><div className="bet-sport">{b.sport}</div><div className="bet-team">{b.team}</div></div>
@@ -251,12 +251,12 @@
 
       <footer>
         <div className="footer-left">
-          <div className="footer-logo"><strong>blindspot</strong>.bet Â· D&amp;A Analytics</div>
+          <div className="footer-logo"><strong>blindspot</strong>.bet · D&amp;A Analytics</div>
           <div className="footer-tagline">signal â†’ structure â†’ edge</div>
         </div>
         <div className="footer-right">
           <div className="footer-ddl">A <a href="https://www.dropdownlogistics.com" target="_blank" rel="noopener noreferrer">Dropdown Logistics</a> product</div>
-          <div className="footer-copy">Â© 2026 Â· built by two people who share actual DNA</div>
+          <div className="footer-copy">Â© 2026 · built by two people who share actual DNA</div>
         </div>
       </footer>
     </>
