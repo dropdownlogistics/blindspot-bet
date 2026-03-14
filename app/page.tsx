@@ -1,4 +1,4 @@
-export default function Home() {
+﻿export default function Home() {
   return (
     <>
       <style>{`
@@ -139,20 +139,20 @@ export default function Home() {
           <div className="logo-text"><strong>blindspot</strong>.bet</div>
         </div>
         <div className="nav-right">
-          <span className="nav-tagline">signal → structure → edge</span>
+          <span className="nav-tagline">signal â†’ structure â†’ edge</span>
           <div className="nav-badge">Early Access</div>
         </div>
       </nav>
 
       <section className="hero">
-        <div className="hero-eyebrow">D&amp;A Analytics · Sports Betting · blindspot.bet</div>
+        <div className="hero-eyebrow">D&amp;A Analytics Â· Sports Betting Â· blindspot.bet</div>
         <h1>You&apos;re not losing.<br />You&apos;re <em>not seeing.</em></h1>
         <p className="hero-sub">
-          <strong>blindspot.bet</strong> tracks every bet, surfaces every pattern, and shows you exactly where your edge is — and where it isn&apos;t. The house doesn&apos;t have better odds. It has better data.
+          <strong>blindspot.bet</strong> tracks every bet, surfaces every pattern, and shows you exactly where your edge is â€” and where it isn&apos;t. The house doesn&apos;t have better odds. It has better data.
         </p>
         <div className="cta-row">
           <button className="btn-primary">Join the Waitlist</button>
-          <button className="btn-secondary">See How It Works →</button>
+          <button className="btn-secondary">See How It Works â†’</button>
         </div>
       </section>
 
@@ -176,8 +176,8 @@ export default function Home() {
 
       <section className="stats-section">
         <div className="stats-grid">
-          <div className="stat-card"><div className="stat-num" style={{color:'var(--green)'}}>84%</div><div className="stat-label">of bettors have never tracked a single bet</div><div className="stat-delta" style={{color:'var(--text-dim)'}}>— that&apos;s your edge</div></div>
-          <div className="stat-card"><div className="stat-num" style={{color:'var(--green-light)'}}>+6.2%</div><div className="stat-label">avg ROI improvement after 90 days of tracking</div><div className="stat-delta up">↑ vs untracked bettors</div></div>
+          <div className="stat-card"><div className="stat-num" style={{color:'var(--green)'}}>84%</div><div className="stat-label">of bettors have never tracked a single bet</div><div className="stat-delta" style={{color:'var(--text-dim)'}}>â€” that&apos;s your edge</div></div>
+          <div className="stat-card"><div className="stat-num" style={{color:'var(--green-light)'}}>+6.2%</div><div className="stat-label">avg ROI improvement after 90 days of tracking</div><div className="stat-delta up">â†‘ vs untracked bettors</div></div>
           <div className="stat-card"><div className="stat-num" style={{color:'var(--neutral)'}}>12</div><div className="stat-label">behavioral patterns that predict long-run losses</div><div className="stat-delta" style={{color:'var(--text-dim)'}}>all trackable from bet logs</div></div>
           <div className="stat-card"><div className="stat-num" style={{color:'var(--red)'}}>$0</div><div className="stat-label">cost to identify your blind spots</div><div className="stat-delta" style={{color:'var(--green)'}}>free tier at launch</div></div>
         </div>
@@ -188,12 +188,12 @@ export default function Home() {
         <div className="section-title">Your data.<br /><em>Fully visible.</em></div>
         <div className="feature-grid">
           {[
-            {icon:'📊',bg:'#0a2818',title:'Bet Log',desc:'Every bet. Every platform. Moneyline, spread, O/U, props, parlays, live. Log in 3 taps. Review in seconds.'},
-            {icon:'🎯',bg:'#0a2818',title:'ROI by Everything',desc:'Sport, bet type, platform, day of week, time of day. Your edge lives in the splits.'},
-            {icon:'⚡',bg:'#1a1030',title:'Tilt Detection',desc:'Bet size spikes after losses. Late-night variance. Chase patterns. We flag the behavior before it costs you.'},
-            {icon:'💰',bg:'#2A0A0A',title:'Cash-Out Tracker',desc:'Did you leave money on the table or dodge a bullet? Track every early exit and see the pattern over time.'},
-            {icon:'📡',bg:'#0a1830',title:'Live Lines',desc:'Real odds from DraftKings, FanDuel, BetMGM and more. Shop lines. Log the best one.'},
-            {icon:'🏆',bg:'#0a2818',title:'Parlay Analysis',desc:"Each leg tracked independently. Win rate per leg type. Expected value vs actual. The math doesn't lie."},
+            {icon:'ðŸ“Š',bg:'#0a2818',title:'Bet Log',desc:'Every bet. Every platform. Moneyline, spread, O/U, props, parlays, live. Log in 3 taps. Review in seconds.'},
+            {icon:'ðŸŽ¯',bg:'#0a2818',title:'ROI by Everything',desc:'Sport, bet type, platform, day of week, time of day. Your edge lives in the splits.'},
+            {icon:'âš¡',bg:'#1a1030',title:'Tilt Detection',desc:'Bet size spikes after losses. Late-night variance. Chase patterns. We flag the behavior before it costs you.'},
+            {icon:'ðŸ’°',bg:'#2A0A0A',title:'Cash-Out Tracker',desc:'Did you leave money on the table or dodge a bullet? Track every early exit and see the pattern over time.'},
+            {icon:'ðŸ“¡',bg:'#0a1830',title:'Live Lines',desc:'Real odds from DraftKings, FanDuel, BetMGM and more. Shop lines. Log the best one.'},
+            {icon:'ðŸ†',bg:'#0a2818',title:'Parlay Analysis',desc:"Each leg tracked independently. Win rate per leg type. Expected value vs actual. The math doesn't lie."},
           ].map((f,i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{background:f.bg}}>{f.icon}</div>
@@ -215,15 +215,15 @@ export default function Home() {
             <div className="preview-url">blindspot.bet/dashboard</div>
           </div>
           <div className="preview-body">
-            <div className="mini-card"><div className="mini-label">Season ROI</div><div className="mini-val" style={{color:'var(--green)'}}>+4.8%</div><div className="mini-sub up">↑ +1.2% vs last month</div><div className="mini-bar"><div className="mini-bar-fill" style={{width:'68%',background:'var(--green)'}} /></div></div>
+            <div className="mini-card"><div className="mini-label">Season ROI</div><div className="mini-val" style={{color:'var(--green)'}}>+4.8%</div><div className="mini-sub up">â†‘ +1.2% vs last month</div><div className="mini-bar"><div className="mini-bar-fill" style={{width:'68%',background:'var(--green)'}} /></div></div>
             <div className="mini-card"><div className="mini-label">Win Rate</div><div className="mini-val" style={{color:'var(--green-light)'}}>54.3%</div><div className="mini-sub" style={{color:'var(--text-dim)'}}>Break-even: 52.4%</div><div className="mini-bar"><div className="mini-bar-fill" style={{width:'54%',background:'var(--green-light)'}} /></div></div>
             <div className="mini-card"><div className="mini-label">Blind Spot</div><div className="mini-val" style={{color:'var(--red)',fontSize:'1.1rem'}}>Late Night</div><div className="mini-sub down">-8.2% ROI after 11pm</div><div className="mini-bar"><div className="mini-bar-fill" style={{width:'82%',background:'var(--red)'}} /></div></div>
             <div className="preview-bets">
               <div className="mini-label" style={{marginBottom:'12px'}}>Recent Bets</div>
               {[
-                {sport:'NBA · Spread',team:'Lakers -4.5',book:'DraftKings · -110',result:'+$95.45',cls:'up'},
-                {sport:'MLB · Moneyline',team:'Yankees ML',book:'FanDuel · -145',result:'-$100.00',cls:'down'},
-                {sport:'NCAAB · O/U',team:'Kansas o152.5',book:'BetMGM · -108',result:'+$92.59',cls:'up'},
+                {sport:'NBA Â· Spread',team:'Lakers -4.5',book:'DraftKings Â· -110',result:'+$95.45',cls:'up'},
+                {sport:'MLB Â· Moneyline',team:'Yankees ML',book:'FanDuel Â· -145',result:'-$100.00',cls:'down'},
+                {sport:'NCAAB Â· O/U',team:'Kansas o152.5',book:'BetMGM Â· -108',result:'+$92.59',cls:'up'},
               ].map((b,i) => (
                 <div key={i} className="bet-row">
                   <div><div className="bet-sport">{b.sport}</div><div className="bet-team">{b.team}</div></div>
@@ -251,12 +251,12 @@ export default function Home() {
 
       <footer>
         <div className="footer-left">
-          <div className="footer-logo"><strong>blindspot</strong>.bet · D&amp;A Analytics</div>
-          <div className="footer-tagline">signal → structure → edge</div>
+          <div className="footer-logo"><strong>blindspot</strong>.bet Â· D&amp;A Analytics</div>
+          <div className="footer-tagline">signal â†’ structure â†’ edge</div>
         </div>
         <div className="footer-right">
           <div className="footer-ddl">A <a href="https://www.dropdownlogistics.com" target="_blank" rel="noopener noreferrer">Dropdown Logistics</a> product</div>
-          <div className="footer-copy">© 2026 · built by two people who share actual DNA</div>
+          <div className="footer-copy">Â© 2026 Â· built by two people who share actual DNA</div>
         </div>
       </footer>
     </>
