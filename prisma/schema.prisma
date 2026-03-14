@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  createdAt     DateTime @default(now())
+  tokenBalance  Int      @default(1000)
+  rebuys        Rebuy[]
+  bets          Bet[]
+}
+
+model Bet {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id])
+  createdAt         DateTime  @default(now())
+  betDate           DateTime
+  sport             String
+  betType           String
+  platform          String
+  oddsEntry         Int
+  stakeTokens       Int
+  result            String?
+  netChange         Int?
+  tokenBalanceAfter Int?
+  contextNote       String?
+  sessionId         String?
+  parlayId          String?
+  isLeg             Boolean   @default(false)
+  exitValue         Int?
+  fullPayoutValue   Int?
+}
+
+model Rebuy {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  createdAt      DateTime @default(now())
+  priorBalance   Int
+  tokensReceived Int      @default(1000)
+  triggerContext String?
+}
+
+model WaitlistEntry {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}

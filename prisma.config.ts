@@ -1,0 +1,7 @@
+import { defineConfig } from 'prisma/config'
+
+export default defineConfig({
+  datasource: {
+    url: 'postgresql://neondb_owner:npg_2ASdseX8lzmY@ep-divine-meadow-am07xqyg-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require',
+  },
+})
