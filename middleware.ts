@@ -7,6 +7,7 @@ const isPublicRoute = createRouteMatcher([
   '/scope',
   '/llms.txt',
   '/api/waitlist',
+  '/api/og',
   '/sign-in(.*)',
   '/sign-up(.*)',
 ])
