@@ -7,8 +7,14 @@ export async function GET() {
     (
       <div style={{width:'1200px',height:'630px',background:'#0D2137',display:'flex',flexDirection:'column',justifyContent:'space-between',padding:'64px 80px',fontFamily:'sans-serif'}}>
         <div style={{display:'flex',alignItems:'center',gap:'16px'}}>
-          <div style={{width:'48px',height:'48px',background:'#0a1a2e',borderRadius:'10px',border:'1px solid rgba(34,197,94,0.3)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'28px'}}>
-            🧬
+          <div style={{width:'48px',height:'48px',background:'#0a1a2e',borderRadius:'10px',border:'1px solid rgba(34,197,94,0.3)',display:'flex',alignItems:'center',justifyContent:'center'}}>
+            <svg width="28" height="28" viewBox="0 0 26 26" fill="none">
+              <path d="M9 3C9 3 17 7 17 10.5C17 14 9 16 9 19.5C9 23 17 24 17 24" stroke="#22C55E" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M17 3C17 3 9 7 9 10.5C9 14 17 16 17 19.5C17 23 9 24 9 24" stroke="#86EFAC" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="10" y1="7.5" x2="16" y2="7.5" stroke="#E2E8F0" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="10" y1="13" x2="16" y2="13" stroke="#E2E8F0" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="10" y1="18.5" x2="16" y2="18.5" stroke="#E2E8F0" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
           </div>
           <div style={{display:'flex',fontSize:'22px',fontWeight:500,color:'#E2E8F0',letterSpacing:'0.05em'}}>
             <span style={{color:'#22C55E'}}>blindspot</span>
