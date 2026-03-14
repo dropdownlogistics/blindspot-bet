@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 function WaitlistForm() {
@@ -281,7 +281,7 @@ export default function Home() {
       <footer>
         <div className="footer-left"><strong>blindspot</strong>.bet · D&amp;A Analytics</div>
         <div className="footer-right">
-          A <a href="https://www.dropdownlogistics.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--green-light)',textDecoration:'none'}}>Dropdown Logistics</a> product · built by two people who share actual DNA
+          A <a href="https://www.dropdownlogistics.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--green-light)',textDecoration:'none'}}>Dropdown Logistics</a> product · built by two people who share actual DNA · <a href="/scope" style={{color:"var(--green-light)",textDecoration:"none"}}>Scope</a>
         </div>
       </footer>
     </>
