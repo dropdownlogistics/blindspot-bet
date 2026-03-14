@@ -1,4 +1,4 @@
-const GLOSSARY = [
+﻿const GLOSSARY = [
   {
     category: "Token Economy",
     color: "#22C55E",

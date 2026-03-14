@@ -1,4 +1,4 @@
-export default function HowItWorks() {
+﻿export default function HowItWorks() {
   return (
     <>
       <style>{`
