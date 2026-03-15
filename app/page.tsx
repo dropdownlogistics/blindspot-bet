@@ -1,4 +1,5 @@
 ﻿"use client";
+import { WelcomeModal } from "@/components/WelcomeModal";
 import { useState, useEffect } from "react";
 
 function WaitlistForm() {
@@ -243,6 +244,8 @@ export default function Home() {
         }
       `}</style>
 
+      <WelcomeModal />
+      <a href="/governance" style={{position:"fixed",bottom:"24px",right:"24px",zIndex:9000,fontFamily:"JetBrains Mono,monospace",fontSize:"10px",color:"var(--text-dim)",border:"1px solid var(--border)",borderRadius:"20px",padding:"6px 14px",background:"var(--surface)",textDecoration:"none",letterSpacing:"0.08em",transition:"all 0.2s"}} onMouseOver={e=>(e.currentTarget.style.color="var(--green)",e.currentTarget.style.borderColor="var(--border-green)")} onMouseOut={e=>(e.currentTarget.style.color="var(--text-dim)",e.currentTarget.style.borderColor="var(--border)")}>governance</a>
       <div className="glow-orb glow-1" />
       <div className="glow-orb glow-2" />
 
