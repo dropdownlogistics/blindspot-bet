@@ -1,6 +1,7 @@
 ﻿"use client";
 import { WelcomeModal } from "@/components/WelcomeModal";
 import { useState, useEffect } from "react";
+import { useUser } from "@clerk/nextjs";
 
 function WaitlistForm() {
   const [email, setEmail] = useState("");
@@ -40,6 +41,20 @@ const NODES = [
   { label: "Token Economy", sub: "no real money", angle: 126 },
   { label: "Scope", sub: "boundaries", angle: 198 },
 ];
+
+
+function NavActions() {
+  const { isSignedIn } = useUser();
+  if (isSignedIn) return (
+    <a href="/dashboard" style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"10px",color:"var(--green)",border:"1px solid var(--border-green)",padding:"6px 16px",borderRadius:"20px",letterSpacing:"0.08em",textDecoration:"none",textTransform:"uppercase"}}>Dashboard →</a>
+  );
+  return (
+    <div style={{display:"flex",gap:"10px",alignItems:"center"}}>
+      <a href="/sign-in" style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"10px",color:"var(--text-mid)",textDecoration:"none",letterSpacing:"0.06em"}}>Sign In</a>
+      <a href="/sign-up" style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"10px",color:"var(--green)",border:"1px solid var(--border-green)",padding:"6px 16px",borderRadius:"20px",letterSpacing:"0.08em",textDecoration:"none",textTransform:"uppercase"}}>Get Started</a>
+    </div>
+  );
+}
 
 function OrbitalHero({ visible }: { visible: boolean }) {
   const R = 165;
@@ -264,7 +279,7 @@ export default function Home() {
         </div>
         <div className="nav-right">
           <span className="nav-tagline">signal → structure → edge</span>
-          <div className="nav-badge">Free Beta</div>
+          <NavActions />
         </div>
       </nav>
 
