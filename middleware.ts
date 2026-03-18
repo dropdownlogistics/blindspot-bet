@@ -1,4 +1,4 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+﻿import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
 const isPublicRoute = createRouteMatcher([
   '/',
@@ -10,6 +10,7 @@ const isPublicRoute = createRouteMatcher([
   '/api/waitlist',
   '/api/og',
   '/api/webhooks/clerk',
+  '/api/odds',
   '/sign-in(.*)',
   '/sign-up(.*)',
 ])
