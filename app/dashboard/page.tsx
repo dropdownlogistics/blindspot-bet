@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
@@ -280,13 +280,17 @@ export default function Dashboard() {
     <>
       <style>{`
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        .glow-orb{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0}
+        .glow-1{width:700px;height:700px;background:radial-gradient(circle,rgba(34,197,94,0.05) 0%,transparent 70%);top:-200px;right:-200px}
+        .glow-2{width:500px;height:500px;background:radial-gradient(circle,rgba(134,239,172,0.03) 0%,transparent 70%);bottom:0;left:-200px}
+        .main{position:relative;z-index:1}
         body{font-family:'Space Grotesk',sans-serif;background:#0D2137;color:#E2E8F0;min-height:100vh}
         nav{position:sticky;top:0;z-index:100;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(12px);background:rgba(13,33,55,0.92);border-bottom:1px solid #1A3048}
         .logo{display:flex;align-items:center;gap:10px}
         .logo-mark{width:26px;height:26px;background:#0f2237;border-radius:5px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(34,197,94,0.2)}
         .logo-text{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.05em;color:#E2E8F0}
         .logo-text strong{color:#22C55E}
-        .main{max-width:1000px;margin:0 auto;padding:28px 24px 80px}
+        .main{max-width:1200px;margin:0 auto;padding:28px 32px 80px}
         .page-eyebrow{font-family:'JetBrains Mono',monospace;font-size:9px;color:#22C55E;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px}
         .page-title{font-size:1.5rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:24px}
         .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
@@ -336,6 +340,8 @@ export default function Dashboard() {
         </div>
       </nav>
 
+      <div className="glow-orb glow-1" />
+      <div className="glow-orb glow-2" />
       <div className="main">
         <div className="page-eyebrow">Dashboard · signal → structure → edge</div>
         <div className="page-title">Your blind spots, visible.</div>
