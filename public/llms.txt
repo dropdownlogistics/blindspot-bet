@@ -1,26 +1,49 @@
 ## OperatorManifest — blindspot.bet
-## Version: 0.1
-## Date: 2026-03-14
+## Version: 0.2
+## Date: 2026-03-17
 ## Operator: Dave Kitchens
 ## Studio: Dropdown Logistics (DDL)
-## Status: LIVE — Landing + Infrastructure — Schema Next
+## Status: LIVE — Auth, Schema, API, Governance all deployed
 ## Format: llms.txt extended (OperatorManifest standard, CR-CANON-001)
+
+---
+
+## WHAT CHANGED IN v0.2
+
+v0.1 -> v0.2 (2026-03-17):
+- Clerk auth deployed — sign-in, sign-up, ClerkProvider, middleware
+- 8 API routes live and tested end-to-end
+- Neon PostgreSQL schema migrated (Fact_Bets, Fact_Rebuys, User, WaitlistEntry)
+- Token economy tested: create user -> place bet -> settle W -> correct payout
+- Orbital hero landing page deployed — helix mark at center, 5 feature nodes
+- Governance page live at /governance
+- Welcome modal deployed — one-time, localStorage, NCPG helpline embedded
+- Scope Declaration live at /scope (CR-BLINDSPOT-001 ratified)
+- Dynamic OG image live at /api/og (1200x630, branded)
+- Open Graph + Twitter Card meta tags wired in layout.tsx
+- Favicon updated to canonical D&A brand kit paths
+- Free access commitment added to governance framework
+- Council reviews completed: CR-BLINDSPOT-001, CR-DDL-LIVE-001, CR-FANTASYFORGE-001
+- CR-TRADEFORGE-001 sent — responses pending
+- OperatorManifest promoted from /public to /llms.txt (standard path)
 
 ---
 
 ## IDENTITY
 
 Product:          blindspot.bet
-Operator:         Dave Kitchens (D.K. Hale)
-Studio:           Dropdown Logistics
+Operator:         Dave Kitchens
+Studio:           Dropdown Logistics (DDL)
 URL:              https://blindspot.bet
 Sub-brand:        D&A Analytics
-Version:          0.1 — landing live, schema next
-Status:           LIVE — Early Access / Waitlist open
-Stack:            Next.js (App Router) / Vercel / Cloudflare DNS
+Collaborator:     Alex (Dave's cousin, professional trader)
+Version:          0.2
+Status:           LIVE — Early Access — Waitlist collecting — Auth live
+Stack:            Next.js (App Router) / Vercel / Neon PostgreSQL / Clerk / Cloudflare
 Repo:             github.com/dropdownlogistics/blindspot-bet
 Domain:           blindspot.bet — registered Cloudflare, $20.20, .bet TLD
-Purpose:          A governed sports betting analytics platform that surfaces behavioral blind spots from bet log data.
+Purpose:          A governed sports betting analytics platform that surfaces behavioral
+                  blind spots from bet log data. A data layer for the bettor.
 
 ---
 
@@ -35,6 +58,8 @@ It is NOT gambling advice.
 It does NOT predict outcomes.
 It does NOT handle real money.
 It does NOT claim edge generation — it reveals edge and leak.
+It does NOT recommend bets.
+It does NOT profit from gambling activity.
 
 Architectural identity: signal -> structure -> edge
 The signal is raw bet log data.
@@ -46,102 +71,173 @@ blindspot.bet is the data layer built for the other side of that equation.
 
 ---
 
+## RESPONSIBLE USE
+
+The operator has personal experience with addiction (sobriety: 8 years).
+This product was built with awareness of what a gateway looks like.
+A one-time welcome modal on first visit surfaces the NCPG helpline (1-800-522-4700)
+and the operator's direct note before any user accesses the product.
+A free tier is committed — core logging will always be free.
+Paywalling pattern visibility contradicts the purpose of building this.
+
+---
+
 ## METHODOLOGY
 
-Built in one Friday night session (March 14, 2026).
-Zero code existed before 9pm CT.
-Domain registered, repo scaffolded, Vercel wired, DNS live, SSL certified,
-3 pages built and deployed, brand kit generated, waitlist wired — all in one session.
+Built in one session (March 14, 2026 — Friday night).
+Zero code existed before 9pm CT. Full stack live by 5am CT.
 
 Operator methodology: Chaos -> Structured -> Automated
-Applied universally across DDL products.
+Applied universally across all DDL products.
 Schema designed before UI. Governance baked in before any user-facing layer.
 Star schema thinking applied to all domains.
 
-Token economy absorbed from SimCasino (DDL, council-reviewed v1.0):
-- Append-only ledger
-- De-monetized terminology
-- EV tracking methodology
-- Free rebuy with full event logging
+Token economy origin: SimCasino (DDL, council-reviewed v1.0)
+  - Append-only ledger
+  - De-monetized terminology
+  - EV tracking methodology
+  - Free rebuy with full event logging
 
 ---
 
 ## DATA MODEL
 
-Status: Designed. Not yet built.
-Build session pending.
+FACT TABLES (center)
 
-FACT TABLE (center)
-  Fact_Bets
-    Grain: one row per bet placed
-    Fields: date, time, sport, bet_type, platform, odds_entry, stake_tokens,
-            result, net_change, token_balance_after, context_note, session_id
+  Fact_Bets (Bet)
+    Grain:      One row per bet placed per user
+    Fields:     id, userId, betDate, sport, betType, platform, oddsEntry,
+                stakeTokens, result, netChange, tokenBalanceAfter,
+                contextNote, sessionId, parlayId, isLeg, exitValue,
+                fullPayoutValue, createdAt
+    Status:     LIVE on Neon PostgreSQL
 
-  Fact_Rebuys
-    Grain: one row per token stack reset
-    Fields: date, time, prior_balance, tokens_received, trigger_context
+  Fact_Rebuys (Rebuy)
+    Grain:      One row per token stack reset per user
+    Fields:     id, userId, priorBalance, tokensReceived, triggerContext, createdAt
+    Status:     LIVE on Neon PostgreSQL — append-only
 
-DIMENSIONS
-  Dim_Sport         — MLB, NFL, NBA, NCAAMBB, NCAAFB, Soccer, etc.
-  Dim_BetType       — Moneyline, Spread, O/U, Prop, Parlay, Live, Futures
-  Dim_Platform      — DraftKings, FanDuel, BetMGM, Caesars, etc.
-  Dim_MarketContext — macro catalyst, VIX level, news event, bias note
-  Dim_User          — user_id, signup_date, token_balance, rebuy_count
+DIMENSIONS (designed, not yet built as separate tables)
+  Dim_Sport           Sport dimension
+  Dim_BetType         Bet type dimension
+  Dim_Platform        Platform dimension
+  Dim_MarketContext   Market context notes (VIX, news catalyst, macro)
+  Dim_TimeOfDay       Entry time bucket
 
-BRIDGE / DERIVED
-  Parlay legs tracked at row level with parlay_id linking parent bet
-  Cash-out logged with exit_value vs full_payout_value as separate fields
+SUPPORTING TABLES
+  User              id, email, tokenBalance (default 1000), createdAt
+  WaitlistEntry     email, createdAt
 
-PLANNED INTEGRATIONS
-  The Odds API      — live lines at bet entry (legal, documented REST API)
-  Resend            — waitlist email capture (live)
+PLANNED SCHEMA ADDITIONS
+  Fact_DecisionLog  Decision log protocol — pending build
+  Dim_TraderBias    Market context layer — pending build
 
 ---
 
 ## TOKEN ECONOMY
 
-Currency:           Tokens (simulation units, no real-world value)
+Currency:           Tokens (simulation units — no real-world value)
 Starting balance:   1,000 tokens per account
 Win payout:         Calculated from American odds at entry
-Loss deduction:     Full stake deducted
-Rebuy:              Free, unlimited. Every rebuy logged. Frequency = signal.
-Terminology (de-monetized, SimCasino standard):
+Loss deduction:     Full stake deducted immediately at bet placement
+Rebuy:              Free, unlimited. Every rebuy logged. Frequency = behavioral signal.
+Terminology (de-monetized):
   token balance     (not bankroll)
   net change        (not profit/loss)
   observed win rate (not hit rate)
   stake             (acceptable — context makes it neutral)
 
----
-
-## FEATURES — LIVE
-
-/                   Landing page. Hero, ticker, stats grid, feature cards,
-                    dashboard preview, waitlist CTA. D&A brand.
-/how-it-works       5-step flow. Token economy. Rebuy signal. Dashboard metrics preview.
-                    SimCasino lineage credited.
-/glossary           7 categories. 46 terms. Token Economy, Bet Tracking,
-                    Performance Metrics, Behavioral Layer, Bet Types,
-                    Platform & Lines, DDL/SimCasino Canon.
-/api/waitlist       POST. Accepts email. Sends notification to DDL gmail via Resend.
-                    Free tier — sends to verified address only (dropdownlogistics@gmail.com).
+TESTED END-TO-END:
+  User created -> 1,000 tokens
+  NBA Spread bet at -110 -> 100 tokens staked -> balance 900
+  Settled W -> +91 tokens -> balance 1,091 (correct American odds math)
 
 ---
 
-## FEATURES — DEFERRED
+## PAGES LIVE
 
-/dashboard          Token balance trajectory, ROI by split, blind spot flags
-/log                Bet entry UI — 3-tap mobile flow
-/glossary/[term]    Individual term pages (future)
-Auth                Clerk or NextAuth — post-schema
-The Odds API        Live lines integration — post-schema
-Tilt detection      Stake spike, late-night flag, rebuy clustering — post-dashboard
-Parlay leg tracking Leg-by-leg EV — post-schema
-Cash-out tracker    Actual vs full payout delta — post-schema
-Mobile app          React Native — post-web-v0.1
-PDF/XLSX export     Bet log export — later
-SimCasino sandbox   Standalone probability sandbox — later
-User auth           Post-schema
-dim_TraderBias      Market context notes layer — planned, not started
+/                   Orbital hero landing. Two-column layout.
+                    Helix mark at orbital center. 5 feature nodes.
+                    Rotating arc segment. Arc text stamp.
+                    Ticker. Stats grid. Feature cards.
+                    Dashboard preview. Waitlist CTA.
+
+/how-it-works       5-step flow. Token economy table.
+                    Rebuy signal with sample log. 6 dashboard metrics.
+
+/glossary           7 categories. 46 terms. Full product vocabulary.
+                    Token Economy, Bet Tracking, Performance Metrics,
+                    Behavioral Layer, Bet Types, Platform & Lines,
+                    DDL/SimCasino Canon.
+
+/scope              Scope Declaration v1.0 — what this product IS and IS NOT.
+                    Council-ratified CR-BLINDSPOT-001. Footer linked.
+
+/governance         Governance framework. Founder note (operator voice, direct).
+                    NCPG helpline embedded. Decision Log Protocol (pending).
+                    Outcome Reconciliation Rule (pending). Free access commitment.
+                    Token Economy Boundary (live). Council ratification note.
+
+/sign-in            Clerk auth — D&A themed dark modal.
+/sign-up            Clerk auth — D&A themed dark modal.
+/llms.txt           This document.
+/api/og             Dynamic OG image — 1200x630, branded, confirmed working.
+
+---
+
+## API ROUTES (all live, tested end-to-end)
+
+POST   /api/user         Create user — 1,000 token balance
+GET    /api/user         User stats + last 10 bets + rebuy count + ROI
+POST   /api/bets         Log bet — stakes tokens, validates balance
+PATCH  /api/bets/[id]    Settle bet — American odds payout, updates balance
+GET    /api/bets         Bet history for user
+POST   /api/rebuys       Free rebuy — resets to 1,000, logs event
+GET    /api/rebuys       Rebuy history for user
+POST   /api/waitlist     Email capture via Resend (confirmed — fires to DDL gmail)
+GET    /api/og           Dynamic OG image — Vercel Edge runtime
+
+PUBLIC ROUTES (no auth required):
+  /, /how-it-works, /glossary, /scope, /governance,
+  /llms.txt, /api/waitlist, /api/og, /sign-in(.*), /sign-up(.*)
+
+PROTECTED ROUTES (Clerk auth required):
+  /dashboard, /log, /api/bets, /api/user, /api/rebuys
+
+---
+
+## FEATURES LIVE
+
+  Orbital hero landing    Helix mark at center of rotating ring.
+                          5 feature nodes at spoke ends. Branded D&A.
+  Clerk auth              Sign-in, sign-up, ClerkProvider, middleware.
+  Waitlist capture        Resend integration. Confirmed working.
+  Welcome modal           One-time. localStorage key bs_welcomed.
+                          NCPG helpline. Operator note. Governance link.
+  Governance button       Fixed bottom-right. Links to /governance.
+  Dynamic OG image        /api/og — Vercel Edge. Branded 1200x630.
+  Open Graph tags         og:title, og:description, og:image, og:url,
+                          og:site_name, og:locale, og:type,
+                          twitter:card, twitter:image — all wired.
+
+---
+
+## FEATURES DEFERRED
+
+/dashboard              Token balance trajectory, ROI by split, blind spot flags
+/log                    Bet entry UI — 3-tap mobile form
+Auth user sync          Clerk webhook -> Neon User record on signup
+Decision Log Protocol   contextNote required at API level
+Outcome Reconciliation  Immutable bet entry, append-only settlement
+Tilt detection          Stake spike, late-night flag, rebuy clustering
+Cash-out tracker        Actual vs full payout delta
+Parlay leg tracking     Leg-by-leg EV
+The Odds API            Live lines integration
+dim_MarketContext       Market context notes layer
+dim_TraderBias          Behavioral fingerprint per user
+Mobile app              React Native — post-web-v0.1
+PDF/XLSX export         Later
+Free tier               Manual logging / CSV import — committed, not yet built
 
 ---
 
@@ -151,123 +247,180 @@ Brand:              D&A Analytics (sub-brand of Dropdown Logistics)
 Design system:      CottageHumble-adjacent — dark, data-forward, no white
 
 COLOR TOKENS
-  --bg:             #0D2137   (D&A navy — deeper than DDL navy)
-  --surface:        #0a1a2e   (cards, panels)
-  --card:           #0f2237   (elevated surfaces)
-  --green:          #22C55E   (Dave green — primary accent)
-  --green-light:    #86EFAC   (Alex green — secondary accent)
-  --neutral:        #E2E8F0   (neutral text / & color)
-  --text:           #E2E8F0
+  --bg:             #0D2137   (D&A navy — deeper than DDL navy #0D1B2A)
+  --surface:        #0a1a2e
+  --card:           #0f2237
+  --green:          #22C55E   (Dave green — primary — d strand)
+  --green-light:    #86EFAC   (Alex green — secondary — a strand)
+  --neutral:        #E2E8F0
   --text-mid:       #6B8AA0
   --text-dim:       #2A4A60
   --border:         #1A3048
   --border-green:   #22C55E30
-  --red:            #EF4444   (loss / negative)
+  --red:            #EF4444
+
+TWO-GREEN SYSTEM: Dave green (#22C55E) and Alex green (#86EFAC) are structural.
+d = Dave, a = Alex, the helix has two strands because there are two people.
+Do not flatten to a single green. Do not swap.
 
 TYPOGRAPHY
-  Space Grotesk     — display, headings, UI (400, 500, 600, 700)
-  JetBrains Mono    — data, labels, meta, code (300, 400, 500, 600)
-  Source Serif 4    — italic accent phrases, editorial (400 italic, 600)
+  Space Grotesk     — display, headings, UI
+  JetBrains Mono    — data, labels, meta, code
+  Source Serif 4    — italic accent phrases, editorial
 
-LOGO
-  Helix mark — two crossing bezier strands (#22C55E + #86EFAC)
-  with three horizontal rungs (#E2E8F0).
-  Rounded square container, #0f2237 background.
-  Two strands = two cousins = d (Dave) and a (Alex).
+LOGO / HELIX MARK
+  Double-helix SVG. Two crossing bezier strands (#22C55E + #86EFAC).
+  Three horizontal rungs (#E2E8F0). Rounded square container (#0f2237).
+  Canonical viewBox: 0 0 26 26
+  Strand 1 (Dave): M9 3C9 3 17 7 17 10.5C17 14 9 16 9 19.5C9 23 17 24 17 24
+  Strand 2 (Alex): M17 3C17 3 9 7 9 10.5C9 14 17 16 17 19.5C17 23 9 24 9 24
+  Rungs: y=7.5, y=13, y=18.5 — #E2E8F0
+  Source: dna_helix_mark.pdf, DNA_Final_BrandSet_2.pdf (canonical)
+
+ORBITAL HERO PATTERN
+  Product mark at center of rotating orbital ring.
+  5 feature nodes at spoke ends (canonical count).
+  Rotating arc segment: primary accent, 12-14s animation.
+  Arc text: product tagline + domain.
+  First named deployment: blindspot.bet (March 14, 2026).
 
 RULES
-  No white backgrounds.
-  No Inter. No Roboto. No system fonts.
-  No light mode.
-  Gold/Amber is DDL. Green is D&A. Do not swap.
+  No white backgrounds. No Inter. No Roboto. No light mode.
   Source Serif 4 italic reserved for emotional accent phrases only.
+  D&A navy (#0D2137) is distinct from DDL navy (#0D1B2A). Never normalize.
 
 VOICE
-  Direct. No hype. Data-grounded. Short sentences. Strong verbs.
+  Direct. Data-grounded. Short sentences. Strong verbs.
   No "unlock", "empower", "supercharge".
   No gambling encouragement — we track, we reveal, we do not advise.
-  Confident. The work proves it.
+  No prediction claims. No outcome guarantees.
 
 ---
 
 ## COLLABORATORS
 
-Dave Kitchens       Operator. CPA. 10+ years internal audit. Builder.
-                    Commission Analyst II, UMB Bank (Day 5 as of build date).
-                    ADHD. Dimensional thinker. Star schema applied universally.
+Dave Kitchens       Operator. CPA. 10+ years internal audit.
+                    Commission Analyst II, UMB Bank.
+                    Sobriety: 8 years. ADHD. Star schema thinking applied
+                    universally. Built blindspot.bet in one Friday night session.
 
-Alex               Dave's cousin. Professional trader.
+Alex                Dave's cousin. Professional trader.
                     117% return over 16.5 months across three market conditions.
-                    Sends daily trade setups, exits, market context notes.
-                    Does the math with a pen — the instinct is there, the tooling isn't.
+                    157+ trades documented. ORB + MA Bounce strategies.
+                    98-99% probability edge confirmed statistically.
+                    Does the math with a pen. The instinct is there.
                     blindspot.bet is the tooling.
-                    Passively building a proof of concept by being himself.
+                    D&A: d = Dave, a = Alex.
 
 ---
 
 ## GOVERNANCE
 
 COMPLETED
-  SimCasino v1.0    Council-reviewed, PASS unanimous. Token economy absorbed.
-                    Ledger schema, rebuy logic, EV methodology ratified.
-  CR-CANON-001      OperatorManifest term ratified. 5/5 LOCK.
-  CR-DDL-COMBINED-001 Cross-product strategic review. Seat 1002 verdict: STRONG.
-                    Full council response pending at build date.
+  Scope Declaration v1.0    /scope — CR-BLINDSPOT-001 ratified
+                            What this product IS and IS NOT. Locked.
+  Token Economy Boundary    Closed simulation currency. No real money. Locked.
+  Welcome Modal             One-time operator note + NCPG helpline. Live.
+  Governance Page           /governance — full framework visible. Live.
+  Free Access Commitment    Core logging will always be free. Locked.
+  OperatorManifest v0.2     This document. /llms.txt. Live.
 
-OPEN — CONNOR'S RISK FLAG (unresolved)
-  "Consequence-driven fracture risk."
-  Real money decisions are adjacent to this product.
-  Audience is relational (Alex trusts Dave).
-  No formal governance yet on the relationship layer.
-  Required insertions (pending):
-    Decision Log Protocol
-    Outcome Reconciliation Rule
-    Scope Declaration ("what blindspot.bet does NOT claim to predict")
+PENDING (in build)
+  Decision Log Protocol     contextNote required at API level.
+                            Every bet must have a rationale at entry.
+                            Cannot retroactively justify after settlement.
+  Outcome Reconciliation    Original bet entry immutable after placement.
+                            Prevents retroactive reframing of bad decisions.
+  Auth User Sync            Clerk webhook -> Neon User record on signup.
+  Clerk Production Mode     Development mode badge — promote to production.
 
-RATIFIED BOUNDARIES
+RATIFIED BOUNDARIES (immovable)
   blindspot.bet is NOT a picks service.
   blindspot.bet does NOT predict outcomes.
   blindspot.bet does NOT handle real money.
   blindspot.bet does NOT issue betting advice.
-  Token economy is simulation-only.
+  Token economy is simulation-only. Zero financial value.
+  Core logging will always be free.
   These lines do not move.
+
+---
+
+## COUNCIL REVIEWS
+
+CR-BLINDSPOT-001    Session 1 build review + next steps
+                    6x STRONG, 2x STABLE — unanimous on auth -> bet log -> dashboard
+                    Scope Declaration ratified as first governance insertion
+
+CR-DDL-LIVE-001     Live product review — all three DDL sites browsed by council
+                    blindspot.bet: 3x STRONG, 3x STABLE, 1x FRAGILE (pre-auth)
+                    Flags: depth one click too deep, CTA generic,
+                    glossary not prominent enough
+
+CR-FANTASYFORGE-001 Fantasy sports engine concept scoping
+                    3x CONDITIONAL — Q3 2026 at earliest
+                    D&A module (Option C) recommended
+                    MVP: draft grade card before NFL draft April 24
+
+CR-TRADEFORGE-001   Alex's trading analytics engine
+                    Build-adjacent. Council review in progress.
+                    Responses pending.
 
 ---
 
 ## ORIGIN
 
 November 30, 2023 — Dave's first-ever AI thread (ChatGPT).
-A sports pick'em tracker for fun. Participants named "Jayhawk Jumper" and "Homer Runson."
-That thread is where he said: "Please feel free to collaborate with me and be more conversational."
-That sentence started everything DDL became.
-blindspot.bet is that idea, matured through 20 months of building.
+A sports pick'em tracker for fun. Participants named "Jayhawk Jumper"
+and "Homer Runson." The sentence that started everything DDL became:
+"Please feel free to collaborate with me and be more conversational."
+blindspot.bet is that idea, matured through 26+ months of building.
 Same vision. The infrastructure finally caught up.
 
 ---
 
-## CANON TERMS (blindspot.bet)
+## NEXT BUILD SEQUENCE
 
-signal -> structure -> edge     Tagline. Ratified. The D&A Analytics operating philosophy.
-                                Signal = raw bet log data.
-                                Structure = governed Fact_Bets schema.
-                                Edge = what the splits reveal.
+1. Auth user sync — Clerk webhook creates Neon User record on signup
+2. Bet log UI — mobile-first form, hits POST /api/bets
+3. Dashboard UI — token balance, ROI by split, recent bets
+4. Decision Log Protocol — contextNote required at API level
+5. Outcome Reconciliation — immutable entry, append-only settlement
+6. Free tier — manual logging + CSV import
+7. Tilt detection — stake spike, late-night flag, rebuy clustering
+8. The Odds API — live lines at bet entry
+9. Mobile app — React Native (post-web-v0.1)
 
-built by two people             Footer canon. Locked.
-who share actual DNA            Dave + Alex. Cousins. The d and the a in D&A.
+---
 
-Blind Spot                      A pattern you couldn't see without instrumentation.
-                                The test reveals something unexpected and important.
-                                The product is named for this moment.
+## CANON TERMS
 
-Token                           Simulation currency. No real-world value. Not redeemable.
-                                De-monetized by design. SimCasino lineage.
+signal -> structure -> edge   Tagline. LOCKED.
+                              Signal = raw bet log data.
+                              Structure = governed Fact_Bets schema.
+                              Edge = what the splits reveal.
 
-Rebuy Signal                    Every free rebuy is a data point.
-                                Frequency of rebuys = behavioral pattern.
-                                Eight rebuys in a month tells you something.
+built by two people           Footer canon. LOCKED.
+who share actual DNA          Dave + Alex. Cousins. The d and the a.
 
-CoherentVelocity                Complete auditable systems built at speed.
-                                blindspot.bet: domain to waitlist in one Friday night session.
+Blind Spot                    A pattern you couldn't see without instrumentation.
+                              The product is named for this moment.
+
+Token                         Simulation currency. No real-world value.
+                              Not redeemable. SimCasino lineage.
+
+Rebuy Signal                  Every rebuy is a data point.
+                              Frequency = behavioral pattern.
+                              Eight rebuys in a month tells you something.
+
+OrbitalHero                   Landing page pattern. Product mark at center
+                              of rotating orbital ring. 5 nodes at spoke ends.
+                              Deployed: blindspot.bet (March 14, 2026).
+                              Pattern named and canonized here.
+
+CoherentVelocity              Domain to working authenticated API with orbital
+                              landing, OG card, and governance page in one session.
+
+AcceptableArrogance           Knowing what you built, letting the work prove it.
 
 ---
 
@@ -284,33 +437,31 @@ Do not break the simulation framing — tokens are not money.
 When generating UI: D&A brand tokens only. No white. No Inter. No light mode.
 When generating schema: Fact_Bets at center, dimensions explicit, grain stated.
 When generating copy: signal -> structure -> edge is the lens.
+When generating governance content: write like someone who understands
+  what a gateway looks like — not like legal boilerplate.
 
-Do not confuse blindspot.bet with the DDL trading module (BlindSpot Trading / Alex's data).
+The two-green system is structural. Dave green (#22C55E) is primary.
+Alex green (#86EFAC) is secondary. Do not flatten. Do not swap.
+
+D&A navy (#0D2137) is distinct from DDL navy (#0D1B2A). Never normalize.
+
+Do not confuse blindspot.bet with the DDL trading module (BlindSpot Trading).
 They share a brand family. They are separate products.
 
-Connor's governance flag is open. Do not architect features that deepen
-the consequence-driven fracture risk before the three governance insertions are ratified.
+Connor's governance flag is partially resolved. Decision Log and Outcome
+Reconciliation are still pending. Do not architect features that deepen
+consequence-driven fracture risk before these are ratified.
+
+The operator has personal experience with addiction. The responsible use
+framework is genuine, not performative. Treat it accordingly.
 
 The operator decides. The council advises. You advise.
 
 ---
 
-## NEXT BUILD SEQUENCE
-
-1. Resolve Connor's governance flag — Decision Log, Outcome Reconciliation, Scope Declaration
-2. Schema build session — Fact_Bets, Fact_Rebuys, all dimensions, Neon PostgreSQL
-3. Auth — Clerk or NextAuth
-4. Bet log UI — 3-tap mobile entry form
-5. Dashboard — token balance trajectory, ROI by split, blind spot flags
-6. The Odds API integration — live lines at bet entry
-7. Tilt detection layer
-8. Mobile app — React Native (post web v0.1)
-
----
-
 ## EOF
 
-blindspot.bet OperatorManifest v0.1
+blindspot.bet OperatorManifest v0.2
 Dropdown Logistics — Chaos -> Structured -> Automated
 signal -> structure -> edge
-2026-03-14
+2026-03-17
