@@ -26,7 +26,7 @@ function WaitlistForm() {
         onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === "Enter" && submit()}
         disabled={status === "loading"} />
       <button className="btn-primary" onClick={submit} disabled={status === "loading"}>
-        {status === "loading" ? "..." : "Request Invite"}
+        {status === "loading" ? "..." : "Get Started Free"}
       </button>
       {status === "error" && <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:"#EF4444",marginTop:8}}>Something went wrong. Try again.</div>}
     </div>
@@ -264,7 +264,7 @@ export default function Home() {
         </div>
         <div className="nav-right">
           <span className="nav-tagline">signal → structure → edge</span>
-          <div className="nav-badge">Early Access</div>
+          <div className="nav-badge">Free Beta</div>
         </div>
       </nav>
 
@@ -277,7 +277,7 @@ export default function Home() {
           </p>
           <div className="cta-row">
             <button className="btn-primary" onClick={()=>document.getElementById('waitlist')?.scrollIntoView({behavior:'smooth'})}>
-              Request Invite
+              Get Started Free
             </button>
             <a href="/how-it-works" className="btn-secondary">See How It Works →</a>
           </div>
@@ -370,8 +370,8 @@ export default function Home() {
       <section className="waitlist-section" id="waitlist">
         <div className="waitlist-card">
           <div className="waitlist-inner">
-            <h2>Get in <em>early.</em></h2>
-            <p>blindspot.bet is in active development. Early access members get free tier for life, priority features, and first look at the behavioral analytics layer.</p>
+            <h2>Get in. <em>It&apos;s free.</em></h2>
+            <p>blindspot.bet is in active development. Free Beta members get free tier for life, priority features, and first look at the behavioral analytics layer.</p>
             <WaitlistForm />
           </div>
         </div>
