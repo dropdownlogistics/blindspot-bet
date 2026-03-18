@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
@@ -336,6 +336,7 @@ export default function Dashboard() {
         </div>
         <div style={{display:"flex",gap:12,alignItems:"center"}}>
           <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:"#2A4A60"}}>{user?.emailAddresses?.[0]?.emailAddress}</span>
+          <a href="/analytics" style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:"#22C55E",textDecoration:"none",letterSpacing:"0.06em"}}>Analytics</a>
           <a href="/" style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:"#2A4A60",textDecoration:"none"}}>← Home</a>
         </div>
       </nav>
