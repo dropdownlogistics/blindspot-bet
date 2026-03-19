@@ -291,7 +291,7 @@ export default function Home() {
             <strong>blindspot.bet</strong> tracks every bet, surfaces every pattern, and shows you exactly where your edge is — and where it isn&apos;t. The house doesn&apos;t have better odds. It has better data.
           </p>
           <div className="cta-row">
-            <button className="btn-primary" onClick={()=>document.getElementById('waitlist')?.scrollIntoView({behavior:'smooth'})}>
+            <button className="btn-primary" onClick={()=>window.location.href='/sign-up'}>
               Get Started Free
             </button>
             <a href="/how-it-works" className="btn-secondary">See How It Works →</a>
@@ -387,7 +387,10 @@ export default function Home() {
           <div className="waitlist-inner">
             <h2>Get in. <em>It&apos;s free.</em></h2>
             <p>blindspot.bet is in active development. Free Beta members get free tier for life, priority features, and first look at the behavioral analytics layer.</p>
-            <WaitlistForm />
+            <div style={{textAlign:'center',padding:'20px 0'}}>
+              <a href='/sign-up' style={{display:'inline-block',background:'var(--green)',color:'#0D2137',fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:'14px',padding:'14px 36px',borderRadius:'8px',textDecoration:'none',letterSpacing:'0.02em'}}>Create Free Account</a>
+              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'11px',color:'var(--text-dim)',marginTop:'12px'}}>Free beta. No credit card. signal to structure to edge.</div>
+            </div>
           </div>
         </div>
       </section>
