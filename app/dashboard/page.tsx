@@ -1,4 +1,4 @@
-"use client";
+ï»¿"use client";
 import { useState, useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
@@ -265,7 +265,7 @@ function TickerBar() {
           const isUp = spread !== undefined && spread > 0;
           return (
             <div key={i} style={{display:"inline-flex",alignItems:"center",gap:8,padding:"0 24px",fontFamily:"'JetBrains Mono',monospace",fontSize:10,borderRight:"1px solid #1A3048"}}>
-              <span style={{color:"#E2E8F0",fontWeight:600}}>{g.away} · {g.home}</span>
+              <span style={{color:"#E2E8F0",fontWeight:600}}>{g.away} ï¿½ {g.home}</span>
               {spread !== undefined && <span style={{color:isUp?"#22C55E":"#EF4444",fontWeight:700}}>{spread > 0 ? `+${spread}` : spread}</span>}
               {ml !== undefined && <span style={{color:"#2A4A60"}}>{ml > 0 ? `+${ml}` : ml}</span>}
               <span style={{color:"#2A4A60",fontSize:9}}>{g.bookmaker}</span>
