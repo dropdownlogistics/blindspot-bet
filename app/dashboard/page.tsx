@@ -242,6 +242,44 @@ function LiveLines({ onBetClick }: { onBetClick: (odds: string, sport: string) =
   );
 }
 
+
+function TickerBar() {
+  const [games, setGames] = useState<any[]>([]);
+  useEffect(() => {
+    fetch(`/api/odds?sport=NCAA%20Basketball`)
+      .then(r => r.json())
+      .then(d => setGames(d.games || []))
+      .catch(() => {});
+  }, []);
+  if (!games.length) return null;
+  const items = [...games, ...games];
+  return (
+    <div style={{background:"rgba(34,197,94,0.03)",borderBottom:"1px solid #1A3048",overflow:"hidden",padding:"7px 0",position:"relative"}}>
+      <div style={{position:"absolute",top:0,bottom:0,left:0,width:60,background:"linear-gradient(90deg,#0D2137,transparent)",zIndex:2,pointerEvents:"none"}}/>
+      <div style={{position:"absolute",top:0,bottom:0,right:0,width:60,background:"linear-gradient(-90deg,#0D2137,transparent)",zIndex:2,pointerEvents:"none"}}/>
+      <style>{`@keyframes bs-ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}@keyframes bs-dot{0%,100%{opacity:1}50%{opacity:0.3}}`}</style>
+      <div style={{display:"flex",whiteSpace:"nowrap",width:"max-content",animation:"bs-ticker 40s linear infinite"}}>
+        {items.map((g:any,i:number) => {
+          const spread = g.spread?.home?.point;
+          const ml = g.moneyline?.home?.price;
+          const isUp = spread !== undefined && spread > 0;
+          return (
+            <div key={i} style={{display:"inline-flex",alignItems:"center",gap:8,padding:"0 24px",fontFamily:"'JetBrains Mono',monospace",fontSize:10,borderRight:"1px solid #1A3048"}}>
+              <span style={{color:"#E2E8F0",fontWeight:600}}>{g.away} · {g.home}</span>
+              {spread !== undefined && <span style={{color:isUp?"#22C55E":"#EF4444",fontWeight:700}}>{spread > 0 ? `+${spread}` : spread}</span>}
+              {ml !== undefined && <span style={{color:"#2A4A60"}}>{ml > 0 ? `+${ml}` : ml}</span>}
+              <span style={{color:"#2A4A60",fontSize:9}}>{g.bookmaker}</span>
+              <span style={{display:"inline-flex",alignItems:"center",gap:4,color:"#22C55E",fontSize:8,fontWeight:700,letterSpacing:"0.08em"}}>
+                <span style={{width:5,height:5,borderRadius:"50%",background:"#22C55E",display:"inline-block",animation:"bs-dot 1.4s ease infinite"}}/>LIVE
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
@@ -321,6 +359,7 @@ export default function Dashboard() {
         }
       `}</style>
 
+      <TickerBar />
       <nav>
         <div className="logo">
           <div className="logo-mark">
