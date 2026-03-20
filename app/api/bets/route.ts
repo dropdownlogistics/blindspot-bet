@@ -23,7 +23,12 @@ export async function POST(req: NextRequest) {
   if (!userId || !sport || !betType || !platform || !oddsEntry || !stakeTokens) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
-
+if (oddsEntry < -5000 || oddsEntry > 5000) {
+    return NextResponse.json({ error: 'Invalid odds' }, { status: 400 })
+  }
+  if (stakeTokens > 500) {
+    return NextResponse.json({ error: 'Max stake is 500 tokens' }, { status: 400 })
+  }
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
   if (user.tokenBalance < stakeTokens) {
