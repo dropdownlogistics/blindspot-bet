@@ -106,21 +106,25 @@ const CSS = `
   .bs-sport-tab.active { background:rgba(134,239,172,0.1); border-color:rgba(134,239,172,0.3); color:#86EFAC; }
 
   .bs-lines-wrap { background:#0d1c2a; border:1px solid #142334; border-radius:10px; overflow:hidden; }
-  .bs-lines-header { display:grid; grid-template-columns:1fr 110px 90px 90px 90px 70px; padding:10px 20px; background:rgba(0,0,0,0.25); border-bottom:1px solid #142334; font-family:'JetBrains Mono',monospace; font-size:8px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#3d6480; gap:8px; }
-  .bs-line-row { display:grid; grid-template-columns:1fr 110px 90px 90px 90px 70px; padding:13px 20px; border-bottom:1px solid #0e1e2c; gap:8px; align-items:center; cursor:pointer; transition:background 0.15s; }
+  .bs-lines-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .bs-lines-header { display:grid; grid-template-columns:1fr 110px 90px 90px 90px 70px; padding:10px 20px; background:rgba(0,0,0,0.25); border-bottom:1px solid #142334; font-family:'JetBrains Mono',monospace; font-size:8px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#3d6480; gap:8px; min-width:580px; }
+  .bs-line-row { display:grid; grid-template-columns:1fr 110px 90px 90px 90px 70px; padding:13px 20px; border-bottom:1px solid #0e1e2c; gap:8px; align-items:center; min-width:580px; }
   .bs-line-row:last-child { border-bottom:none; }
   .bs-line-row:hover { background:rgba(134,239,172,0.03); }
-  .bs-matchup { font-size:13px; font-weight:600; color:#e8f0f7; display:flex; align-items:center; gap:8px; }
+  .bs-matchup { font-size:13px; font-weight:600; color:#e8f0f7; display:flex; align-items:center; gap:8px; cursor:pointer; }
+  .bs-matchup:hover { color:#86EFAC; }
   .bs-matchup-sep { color:#3d6480; font-weight:300; }
 
-  .bs-spread-badge { display:inline-flex; align-items:center; justify-content:center; padding:5px 10px; border-radius:5px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; min-width:90px; }
+  .bs-spread-badge { display:inline-flex; align-items:center; justify-content:center; padding:5px 10px; border-radius:5px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; min-width:90px; cursor:pointer; }
+  .bs-spread-badge:hover { opacity:0.8; }
   .bs-spread-badge.fav { background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.2); color:#f87171; }
   .bs-spread-badge.dog { background:rgba(134,239,172,0.08); border:1px solid rgba(134,239,172,0.2); color:#86EFAC; }
 
-  .bs-ml { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; }
+  .bs-ml { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; cursor:pointer; padding:4px 6px; border-radius:4px; }
+  .bs-ml:hover { background:rgba(134,239,172,0.08); }
   .bs-ml.pos { color:#86EFAC; }
   .bs-ml.neg { color:#f87171; }
-  .bs-ml.dash { color:#3d6480; }
+  .bs-ml.dash { color:#3d6480; cursor:default; }
   .bs-book { font-family:'JetBrains Mono',monospace; font-size:10px; color:#3d6480; }
 
   .bs-time-badge { font-family:'JetBrains Mono',monospace; font-size:9px; display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:3px; }
@@ -163,17 +167,23 @@ const CSS = `
     .bs-kpi-grid { grid-template-columns:1fr 1fr; }
     .bs-quick-stats { grid-template-columns:1fr; }
     .bs-table-header, .bs-bet-row { grid-template-columns:1fr 1fr 1fr; }
+    .bs-nav-links { display:none; }
   }
 `;
 
 function BetModal({ userId, tokenBalance, onClose, onSuccess, prefill }: {
   userId: string; tokenBalance: number;
   onClose: () => void; onSuccess: () => void;
-  prefill?: { odds: string; sport: string };
+  prefill?: { odds: string; sport: string; betType?: string; selection?: string };
 }) {
   const [form, setForm] = useState({
-    sport: prefill?.sport || "", betType: "", platform: "",
-    oddsEntry: prefill?.odds || "", stakeTokens: "", contextNote: "",
+    sport: prefill?.sport || "",
+    betType: prefill?.betType || "",
+    platform: "",
+    oddsEntry: prefill?.odds || "",
+    stakeTokens: "",
+    contextNote: "",
+    selection: prefill?.selection || "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -198,6 +208,7 @@ function BetModal({ userId, tokenBalance, onClose, onSuccess, prefill }: {
         userId, sport: form.sport, betType: form.betType, platform: form.platform,
         oddsEntry: parseInt(form.oddsEntry), stakeTokens: parseInt(form.stakeTokens),
         contextNote: form.contextNote, betDate: new Date().toISOString(),
+        selection: form.selection || null,
       }),
     });
     setLoading(false);
@@ -228,6 +239,10 @@ function BetModal({ userId, tokenBalance, onClose, onSuccess, prefill }: {
             <div className="bs-field">
               <div className="bs-field-label">Bet Type</div>
               <div className="bs-chip-row">{BET_TYPES.map(b => <div key={b} className={`bs-chip${form.betType === b ? " active" : ""}`} onClick={() => set("betType", b)}>{b}</div>)}</div>
+            </div>
+            <div className="bs-field">
+              <div className="bs-field-label">Selection / Teams</div>
+              <input className="bs-field-input" type="text" placeholder="e.g. Kentucky -3.5 or Lakers ML" value={form.selection} onChange={e => set("selection", e.target.value)} />
             </div>
             <div className="bs-field">
               <div className="bs-field-label">Platform</div>
@@ -295,7 +310,9 @@ function TickerBar({ games }: { games: any[] }) {
   );
 }
 
-function LiveLines({ onBetClick }: { onBetClick: (odds: string, sport: string) => void }) {
+function LiveLines({ onBetClick }: {
+  onBetClick: (odds: string, sport: string, betType: string, selection: string) => void
+}) {
   const [sport, setSport] = useState("NCAA Basketball");
   const [games, setGames] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -323,53 +340,81 @@ function LiveLines({ onBetClick }: { onBetClick: (odds: string, sport: string) =
         </div>
       </div>
       <div className="bs-lines-wrap">
-        <div className="bs-lines-header">
-          <span>Matchup</span><span>Spread</span><span>ML Home</span><span>ML Away</span><span>Book</span><span>Time</span>
-        </div>
-        {loading ? (
-          <div style={{ padding: "32px", textAlign: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: "#3d6480" }}>Loading lines...</div>
-        ) : error ? (
-          <div style={{ padding: "32px", textAlign: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: "#f87171" }}>{error}</div>
-        ) : games.length === 0 ? (
-          <div style={{ padding: "32px", textAlign: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: "#3d6480" }}>No games scheduled</div>
-        ) : (
-          <>
-            {games.map((game: any) => {
-              const spread = game.spread?.home?.point;
-              const isFav = spread !== undefined && spread < 0;
-              const time = timeUntil(game.commenceTime);
-              return (
-                <div key={game.id} className="bs-line-row" onClick={() => game.spread?.home && onBetClick(String(game.spread.home.price), sport)}>
-                  <div className="bs-matchup">{game.away} <span className="bs-matchup-sep">@</span> {game.home}</div>
-                  <div>
-                    {spread !== undefined ? (
-                      <span className={`bs-spread-badge ${isFav ? "fav" : "dog"}`}>
-                        {formatSpread(spread)} ({game.spread?.home?.price > 0 ? `+${game.spread.home.price}` : game.spread?.home?.price})
+        <div className="bs-lines-scroll">
+          <div className="bs-lines-header">
+            <span>Matchup</span><span>Spread</span><span>ML Home</span><span>ML Away</span><span>Book</span><span>Time</span>
+          </div>
+          {loading ? (
+            <div style={{ padding: "32px", textAlign: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: "#3d6480", minWidth: 580 }}>Loading lines...</div>
+          ) : error ? (
+            <div style={{ padding: "32px", textAlign: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: "#f87171", minWidth: 580 }}>{error}</div>
+          ) : games.length === 0 ? (
+            <div style={{ padding: "32px", textAlign: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: "#3d6480", minWidth: 580 }}>No games scheduled</div>
+          ) : (
+            <>
+              {games.map((game: any) => {
+                const spread = game.spread?.home?.point;
+                const spreadJuice = game.spread?.home?.price;
+                const isFav = spread !== undefined && spread < 0;
+                const time = timeUntil(game.commenceTime);
+                const homeTeam = game.home;
+                const awayTeam = game.away;
+                return (
+                  <div key={game.id} className="bs-line-row">
+                    <div className="bs-matchup">{awayTeam} <span className="bs-matchup-sep">@</span> {homeTeam}</div>
+                    <div>
+                      {spread !== undefined && spreadJuice !== undefined ? (
+                        <span
+                          className={`bs-spread-badge ${isFav ? "fav" : "dog"}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const selection = `${homeTeam} ${spread > 0 ? "+" : ""}${spread}`;
+                            onBetClick(String(spreadJuice), sport, "Spread", selection);
+                          }}
+                        >
+                          {formatSpread(spread)} ({spreadJuice > 0 ? `+${spreadJuice}` : spreadJuice})
+                        </span>
+                      ) : <span className="bs-ml dash">-</span>}
+                    </div>
+                    <div>
+                      {game.moneyline?.home ? (
+                        <span
+                          className={`bs-ml ${game.moneyline.home.price > 0 ? "pos" : "neg"}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onBetClick(String(game.moneyline.home.price), sport, "Moneyline", `${homeTeam} ML`);
+                          }}
+                        >
+                          {formatOdds(game.moneyline.home.price)}
+                        </span>
+                      ) : <span className="bs-ml dash">-</span>}
+                    </div>
+                    <div>
+                      {game.moneyline?.away ? (
+                        <span
+                          className={`bs-ml ${game.moneyline.away.price > 0 ? "pos" : "neg"}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onBetClick(String(game.moneyline.away.price), sport, "Moneyline", `${awayTeam} ML`);
+                          }}
+                        >
+                          {formatOdds(game.moneyline.away.price)}
+                        </span>
+                      ) : <span className="bs-ml dash">-</span>}
+                    </div>
+                    <div className="bs-book">{game.bookmaker}</div>
+                    <div>
+                      <span className={`bs-time-badge ${time === "Live" ? "live" : "upcoming"}`}>
+                        {time === "Live" && <span className="bs-time-dot" />}
+                        {time}
                       </span>
-                    ) : <span className="bs-ml dash">-</span>}
+                    </div>
                   </div>
-                  <div>
-                    {game.moneyline?.home ? (
-                      <span className={`bs-ml ${game.moneyline.home.price > 0 ? "pos" : "neg"}`}>{formatOdds(game.moneyline.home.price)}</span>
-                    ) : <span className="bs-ml dash">-</span>}
-                  </div>
-                  <div>
-                    {game.moneyline?.away ? (
-                      <span className={`bs-ml ${game.moneyline.away.price > 0 ? "pos" : "neg"}`}>{formatOdds(game.moneyline.away.price)}</span>
-                    ) : <span className="bs-ml dash">-</span>}
-                  </div>
-                  <div className="bs-book">{game.bookmaker}</div>
-                  <div>
-                    <span className={`bs-time-badge ${time === "Live" ? "live" : "upcoming"}`}>
-                      {time === "Live" && <span className="bs-time-dot" />}
-                      {time}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </>
-        )}
+                );
+              })}
+            </>
+          )}
+        </div>
         <div className="bs-lines-footer">
           Click any line to pre-fill odds in bet log &middot; Refreshes every 5 minutes &middot; <span>Powered by The Odds API</span>
         </div>
@@ -385,7 +430,7 @@ export default function Dashboard() {
   const [bets, setBets] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [prefill, setPrefill] = useState<{ odds: string; sport: string } | undefined>();
+  const [prefill, setPrefill] = useState<{ odds: string; sport: string; betType?: string; selection?: string } | undefined>();
   const [tickerGames, setTickerGames] = useState<any[]>([]);
 
   const fetchData = useCallback(async (userId: string) => {
@@ -406,8 +451,8 @@ export default function Dashboard() {
       .catch(() => {});
   }, []);
 
-  const handleBetClick = (odds: string, sport: string) => {
-    setPrefill({ odds, sport });
+  const handleBetClick = (odds: string, sport: string, betType: string, selection: string) => {
+    setPrefill({ odds, sport, betType, selection });
     setShowModal(true);
   };
 
@@ -419,9 +464,7 @@ export default function Dashboard() {
   return (
     <>
       <style>{CSS}</style>
-
       <TickerBar games={tickerGames} />
-
       <nav className="bs-nav">
         <div className="bs-nav-brand">
           <span style={{ color: "#86EFAC" }}>$</span>
@@ -441,9 +484,7 @@ export default function Dashboard() {
           <button className="bs-log-btn-sm" onClick={() => { setPrefill(undefined); setShowModal(true); }}>+ Log Bet</button>
         </div>
       </nav>
-
       <main className="bs-main">
-
         <div className="bs-hero">
           <div className="bs-eyebrow">
             <span>Dashboard</span><span className="bs-eyebrow-dot">&middot;</span>
@@ -453,7 +494,6 @@ export default function Dashboard() {
           </div>
           <h1 className="bs-title">Your blind spots, <em>visible.</em></h1>
         </div>
-
         <div className="bs-kpi-grid">
           <div className="bs-kpi-card highlight">
             <div className="bs-kpi-accent" style={{ background: "#86EFAC" }} />
@@ -482,7 +522,6 @@ export default function Dashboard() {
             <div className="bs-kpi-sub">Start building your edge</div>
           </div>
         </div>
-
         <div className="bs-quick-stats">
           <div className="bs-qs-card">
             <div className="bs-qs-icon" style={{ background: "rgba(134,239,172,0.08)", border: "1px solid rgba(134,239,172,0.15)" }}>&#128202;</div>
@@ -509,7 +548,6 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-
         <div className="bs-section-header">
           <div className="bs-section-title">
             Recent Bets
@@ -525,7 +563,6 @@ export default function Dashboard() {
             <button className="bs-log-btn" onClick={() => { setPrefill(undefined); setShowModal(true); }}>+ Log Bet</button>
           </div>
         </div>
-
         <div className="bs-bet-log-wrap">
           <div className="bs-table-header">
             <span>Sport</span><span>Type</span><span>Odds</span><span>Stake</span><span>Result</span><span>Net</span>
@@ -550,11 +587,8 @@ export default function Dashboard() {
             </div>
           ))}
         </div>
-
         <LiveLines onBetClick={handleBetClick} />
-
       </main>
-
       {showModal && user && (
         <BetModal
           userId={user.id}
