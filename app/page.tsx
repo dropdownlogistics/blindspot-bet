@@ -1,7 +1,6 @@
 ﻿"use client";
 import { WelcomeModal } from "@/components/WelcomeModal";
 import { useState, useEffect } from "react";
-import { useUser } from "@clerk/nextjs";
 
 function WaitlistForm() {
   const [email, setEmail] = useState("");
@@ -44,15 +43,10 @@ const NODES = [
 
 
 function NavActions() {
-  const { isSignedIn } = useUser();
-  if (isSignedIn) return (
-    <a href="/dashboard" style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"10px",color:"var(--green)",border:"1px solid var(--border-green)",padding:"6px 16px",borderRadius:"20px",letterSpacing:"0.08em",textDecoration:"none",textTransform:"uppercase"}}>Dashboard →</a>
-  );
+  // Auth removed 2026-07-23 (Clerk decommissioned, DECISION-AUTH-20260723).
+  // Public demo — no sign-in. Waitlist capture lives in the WaitlistForm below.
   return (
-    <div style={{display:"flex",gap:"10px",alignItems:"center"}}>
-      <a href="/sign-in" style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"10px",color:"var(--text-mid)",textDecoration:"none",letterSpacing:"0.06em"}}>Sign In</a>
-      <a href="/sign-up" style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"10px",color:"var(--green)",border:"1px solid var(--border-green)",padding:"6px 16px",borderRadius:"20px",letterSpacing:"0.08em",textDecoration:"none",textTransform:"uppercase"}}>Get Started</a>
-    </div>
+    <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"10px",color:"var(--text-mid)",letterSpacing:"0.08em",textTransform:"uppercase"}}>Demo</span>
   );
 }
 
